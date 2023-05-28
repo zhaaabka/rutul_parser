@@ -1,0 +1,44 @@
+#паттерны для существительных
+
+PATTERN NominativeStem
+(Nouns [<N>:] NounAgrClass)[^[I,II,III,IV,I/II,NA]]
+
+PATTERN ObliqueStem
+(NounsOblique [<N>:] NounAgrClass)[^[I,II,III,IV,I/II,NA]] [<obl>:]
+
+
+
+#паттерны для числительных
+
+PATTERN NumOrdinal
+Numerals [<num>:] Ordinal
+
+PATTERN NumAgreeing
+NumStems[Agr] [<num>:] NounClass
+
+PATTERN NumNotAgreeing
+NumStems[noAgr] [<num>:]
+
+#------------------------------------------------------------------------------------------------------
+
+PATTERNS
+
+#существительные
+
+NominativeStem [<nom>:] [<sg>:]	#номинатив
+(ObliqueStem Case)[^[human_a_erg,human_e_erg,di,sonorant,Vr,waldɨ,ɨr,r,attrH],^[ra_erg,re_erg,rae_erg,e_erg,a_erg]] [<sg>:]	#остальные падежи
+(ObliqueStem Attr)[^[human_a_erg,human_e_erg,di,sonorant,Vr,waldɨ,ɨr,r,attrH]] [<sg>:]	#атрибутивная форма
+
+#количественные числительные:
+NumNotAgreeing [<nom>:]	# номинатив для тех, которые не согласуются по классу
+NumAgreeing [<nom>:]	# номинатив для тех, которые согласуются по классу
+NumObl [<num>:] NumAttr		# "атрибутивные", не склоняются
+NumObl [<num>:] (AttrObl Case)[^[human_a_erg,human_e_erg,di,sonorant,Vr,waldɨ,ɨr,r,attrH],^[ra_erg,re_erg,rae_erg,e_erg,a_erg]]	# "субстантивированные" которые умеют склоняться
+
+#порядковые числительные:
+NumNotAgreeing Ordinal NumAttr [<nom>:]	[<sg>:]	# номинатив для тех, которые не согласуются по классу
+NumAgreeing Ordinal NumAttr [<nom>:] [<sg>:]	# номинатив для тех, которые согласуются по классу
+#NumOrdinal NumAttr Plural [<nom>:]	 мн.ч. номинатив
+NumOrdinal (NumAttr?) (AttrObl Case)[^[human_a_erg,human_e_erg,di,sonorant,Vr,waldɨ,ɨr,r,attrH],^[ra_erg,re_erg,rae_erg,e_erg,a_erg]] [<sg>:]	# ед.ч. остальных падежей
+#NumOrdinal NumAttr (PluralObl Case)[^[e_erg,ire_erg,ra_erg]]	 мн.ч. остальных падежей
+

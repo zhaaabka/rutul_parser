@@ -1,0 +1,92 @@
+Alphabet
+  а б в г д е ё ж з и й к л м н о п р с т у ф х ц ч ш щ ъ ы ь I э ю я
+  %{аь%}:аь
+  %{уь%}:уь
+  %{аI%}:аI
+  %{уI%}:уI
+  %{ыI%}:ыI
+  %{бы%}:0 %{бы%}:бы
+  %{н%}:0 %{н%}:н
+  %{д%}:0 %{д%}:д
+  %{ы%}:ы %{ы%}:%{ы%}
+  %{а%}:%{а%}
+  %{и%}:ы %{и%}:%{и%}
+  %{adess%}:%{да%} %{adess%}:%{де%}
+  %{ды%}
+  %{да%}
+  %{iness%}
+  %{inel%}
+  %{superess%}
+  %{да%}
+  %{даа%}
+  %{хда%}
+  %{хълаа%}
+;
+
+Sets
+  Vowel = а е ё и о у ы э ю я %{аь%} %{уь%} %{аI%} %{уI%} %{ыI%} %{и%} %{ы%} %{а%};
+  Consonant = б в г д ж з й к л м н п р с т ф х ц ч ш щ ь ъ I;
+  Soft = е и %{аь%} %{уь%} %{и%};
+
+Rules
+
+"хьибыб --> хьиб"
+%{бы%}:0 <=> _ б ;
+
+"сын- and кьуIн- before suffixes beginning with н-"
+%{н%}:0 <=> _ н ;
+
+"хьуд- before suffixes beginning with н-"
+%{д%}:0 <=> _ н ;
+
+"INESSIVE marker for soft stems"
+InessE:е <=> _ %{iness%} ;
+			where InessE in (и %{аь%} %{уь%} %{и%})
+			matched ;
+
+"INESSIVE marker for pharyngalized stems"
+InessAI:аI <=> _ %{iness%} ;
+			where InessAI in (%{уI%} %{ыI%})
+			matched ;
+
+"INESSIVE marker for hard stems"
+InessA:а <=> _ %{iness%} ;
+			where InessA in (ы э у о %{ы%} %{а%})
+			matched ;
+
+"INEL marker"
+V:аа <=> _ %{inel%} ;
+			where V in (а е ё и о у ы э ю я %{аь%} %{уь%} %{аI%} %{уI%} %{ыI%} %{ы%} %{и%} %{а%})
+			matched ;
+
+"SUPERESSIVE marker for e and a"
+SuperessA:аа <=> _ %{superess%} ;
+			where SuperessA in (е а %{аь%} %{аI%} %{а%})
+			matched ;
+
+"SUPERESSIVE marker for the rest"
+SuperessY:ыы <=> _ %{superess%} ;
+			where SuperessY in (ё и о у ы э ю я %{уь%} %{уI%} %{ыI%} %{ы%} %{и%})
+			matched ;
+
+"ADESSIVE marker rules"
+%{adess%}:%{де%} <=> Soft _ ;
+
+"-ɨ stem ADESS without vowel deletion"
+%{ы%}:ы <=> _ %{да%} ;
+
+"-ɨ to zero in sonorant and -ɨr types in ATTR"
+V:0 <=> _ %{ды%} ;
+			where V in (%{ы%} %{и%} %{а%})
+			matched;
+
+"-ɨ to zero in sonorant and -ɨr types in ADEL"
+V:0 <=> _ %{даа%} ;
+			where V in (%{ы%} %{и%} %{а%})
+			matched;
+
+"-i to -ɨ in sonorant soft stem in POSTESS"
+%{и%}:ы <=> _ %{хда%} ;
+
+"-i to -ɨ in sonorant soft stem in POSTEL"
+%{и%}:ы <=> _ %{хълаа%} ;
